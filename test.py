@@ -9,9 +9,9 @@ import data
 import random
 
 
-class MyGrid(GridLayout):
+class BodyMatchTheWords(GridLayout):
     def __init__(self, **kwargs):
-        super(MyGrid, self).__init__(**kwargs)
+        super(BodyMatchTheWords, self).__init__(**kwargs)
         self.cols = 1
 
         self.add_widget(Label(text='Слово'))
@@ -19,7 +19,7 @@ class MyGrid(GridLayout):
         self.insideofinside = GridLayout()
         self.insideofinside.cols = 1
         self.inside = GridLayout()
-        self.inside.cols = 4
+        self.inside.cols = 2
         self.insideofinside.add_widget(self.inside)
 
         self.choice1 = ToggleButton(text="Вариант №1", group='choices')
@@ -34,6 +34,9 @@ class MyGrid(GridLayout):
         self.inside1 = GridLayout()
         self.inside1.cols = 2
 
+        self.submit = Button(text="Submit", font_size=40)
+        self.insideofinside.add_widget(self.submit)
+
         self.result = Label(text='true/false')
         self.inside1.add_widget(self.result)
         self.result1 = Label(text='123-123')
@@ -41,14 +44,10 @@ class MyGrid(GridLayout):
         self.insideofinside.add_widget(self.inside1)
         self.add_widget(self.insideofinside)
 
-        self.submit = Button(text="Submit", font_size=40)
-        self.insideofinside.add_widget(self.submit)
-
-
 
 class MyApp(App):
     def build(self):
-        return MyGrid()
+        return BodyMatchTheWords()
 
 
 if __name__ == "__main__":

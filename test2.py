@@ -7,8 +7,10 @@ from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.pagelayout import PageLayout
 import data
 import random
+global type_of_match_the_words
 
 class StartScreen(GridLayout):
     def __init__(self, **kwargs):
@@ -33,6 +35,7 @@ class StartScreen(GridLayout):
 
     def select_screen(self, screen_name, instance):
         learn_language_app.screen_manager.current = f"{screen_name}"
+        learn_language_app.screen_manager.current_screen= f"{screen_name}"
 
 class MatchTheWordsType(GridLayout):
     def __init__(self, **kwargs):
@@ -40,16 +43,17 @@ class MatchTheWordsType(GridLayout):
         self.cols = 1
 
         self.hanyu_to_russian_btn = Button(text="汉语 → Russian")
-        self.hanyu_to_russian_partial = partial(self.select_screen,"Body match the words")
-        self.hanyu_to_russian_btn.bind(on_press=self.hanyu_to_russian_partial)
+        self.hanyu_to_russian_btn_partial = partial(self.select_screen_2, "Body" )#'a')
+        self.hanyu_to_russian_btn.bind(on_press=self.hanyu_to_russian_btn_partial)
         self.hanyu_to_transcription_btn = Button(text="汉语 → Transcription")
-        self.hanyu_to_transcription_partial = partial(self.select_screen, "Body match the words")
+        self.hanyu_to_transcription_partial = partial(self.select_screen_2, "Body" )#'b')
         self.russian_to_hanyu_btn = Button(text="Russian → 汉语")
-        self.hanyu_to_russian_partial = partial(self.select_screen, "Body match the words")
+        self.russian_to_hanyu_btn_partial = partial(self.select_screen_2, "Body" )#'c')
         self.transcription_to_hanyu_btn = Button(text="Transcription → 汉语")
-        self.hanyu_to_russian_partial = partial(self.select_screen, "Body match the words")
+        self.transcription_to_hanyu_btn_partial = partial(self.select_screen_2, "Body" )#'d')
         self.random_btn = Button(text="Random")
-        self.hanyu_to_russian_partial = partial(self.select_screen, "Body match the words")
+        self.random_btn_partial= partial(self.select_screen_2, "Body" )#'e')
+        self.random_btn.bind(on_press=self.random_btn_partial)
 
         self.add_widget(self.hanyu_to_russian_btn)
         self.add_widget(self.hanyu_to_transcription_btn)
@@ -57,9 +61,11 @@ class MatchTheWordsType(GridLayout):
         self.add_widget(self.transcription_to_hanyu_btn)
         self.add_widget(self.random_btn)
 
-    def select_screen(self, screen_name, mode, instance):
-        learn_language_app.screen_manager.current = f"{screen_name}"
 
+    def select_screen_2(self, screen_name, instance):
+        learn_language_app.screen_manager.current = f"{screen_name}"
+        learn_language_app.screen_manager.current_screen = f"{screen_name}"
+        #type_of_match_the_words = type
 
 class BodyMatchTheWords(GridLayout):
     def __init__(self, **kwargs):
@@ -71,7 +77,7 @@ class BodyMatchTheWords(GridLayout):
         self.insideofinside = GridLayout()
         self.insideofinside.cols = 1
         self.inside = GridLayout()
-        self.inside.cols = 4
+        self.inside.cols = 2
         self.insideofinside.add_widget(self.inside)
 
         self.choice1 = ToggleButton(text="Вариант №1", group='choices')
@@ -86,15 +92,15 @@ class BodyMatchTheWords(GridLayout):
         self.inside1 = GridLayout()
         self.inside1.cols = 2
 
-        self.result = Label(text='true/false')
-        self.inside1.add_widget(self.result)
-        self.result1 = Label(text='123-123')
-        self.inside1.add_widget(self.result1)
-        self.insideofinside.add_widget(self.inside1)
-        self.add_widget(self.insideofinside)
-
         self.submit = Button(text="Submit", font_size=40)
         self.insideofinside.add_widget(self.submit)
+
+        #self.result = Label(text='true/false')
+        #self.inside1.add_widget(self.result)
+        #self.result1 = Label(text='123-123')
+        #self.inside1.add_widget(self.result1)
+        #self.insideofinside.add_widget(self.inside1)
+        self.add_widget(self.insideofinside)
 
 
 
@@ -113,7 +119,7 @@ class MyApp(App):
         self.screen_manager.add_widget(screen)
 
         self.body_match_the_word_type_page = BodyMatchTheWords()
-        screen = Screen(name="Body match the words")
+        screen = Screen(name="Body")
         screen.add_widget(self.body_match_the_word_type_page)
         self.screen_manager.add_widget(screen)
 
